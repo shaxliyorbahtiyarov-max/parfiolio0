@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ p.first_name }} {{ p.last_name }} | Portfolio</title>
+    <link href="{% static 'assets/css/style.css' %}?v=4" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav>
+    <a class="logo" href="#hero">{{ p.logo }}<i>.</i></a>
+    <ul id="menu">
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#interests">Interests</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a class="resume" href="{{ p.resume }}">Resume</a>
+</nav>
+
+<section class="hero" id="hero">
+    <!-- Fon rasmi: core/static/assets/images/background.jpg fayliga rasm joylang. Bu qatlam animatsiyaga qo'shilmaydi. -->
+    <div class="hero-background" aria-hidden="true"></div>
+    <div class="layer bg-word"><span>PORTFOLIO</span></div>
+    <div class="layer portrait">
+        <img src="{% static 'assets/images/portrait.png' %}" alt="Portrait" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <div class="ph"></div>
+    </div>
+    <div class="layer left">
+        <div class="hi">Hi <span style="font-weight:400">I'm</span></div>
+        <div class="name">Muhammad</div>
+        <div class="sur">Khahharov</div>
+        <p>"I am a student passionate about technology and software development, eager to learn quickly and solve complex problems. My goal is to build impactful applications, combine technical skills with economic perspectives, and grow as a professional engineer at a global company."</p>
+        <div class="btns"><a class="btn" href="{{ p.resume }}">View Resume</a><a class="btn" href="#projects">View Projects</a></div>
+    </div>
+    <div class="layer right">
+        <div class="role">{{ p.role }}</div>
+        <div class="job">{% for w in p.job %}{{ w }}{% if not forloop.last %}<br>{% endif %}{% endfor %}</div>
+    </div>
+    <div class="scroll">SCROLL DOWN</div>
+</section>
+
+<section class="s" id="about">
+    <div class="about">
+        <div class="pic"><img src="{% static 'assets/images/about.png' %}" alt="" onerror="this.onerror=null;this.src='{% static 'assets/images/portrait.png' %}'"></div>
+        <div>
+            <h2>ABOUT<br><span>ME.</span></h2>
+            <p class="lead">I'm a web developer and UI/UX designer from Uzbekistan. I enjoy building responsive websites with Django and JavaScript, and designing minimal interfaces that feel natural to use. I'm always learning and open to new projects.</p>
+            <div class="g4">
+                {% for icon, title, text in mini %}<div class="mini"><b>{{ icon }}</b><h4>{{ title }}</h4><p>{{ text }}</p></div>{% endfor %}
+            </div>
+            <div class="quote">“ I love the process of turning a blank page into something people enjoy using. ”</div>
+            <div class="stats">{% for num, label in stats %}<div><b>{{ num }}</b><span>{{ label }}</span></div>{% endfor %}</div>
+            <div class="langs">{% for name, level in langs %}<div>{{ name }}<small>{{ level }}</small></div>{% endfor %}</div>
+        </div>
+    </div>
+</section>
+
+<section class="s" id="skills">
+    <div class="eyebrow">// Expertise</div>
+    <h2 class="t">Skills &amp; Technologies</h2>
+    <div class="skills">
+        {% for icon, title, chips in skills %}
+        <div class="card"><h3><b>{{ icon }}</b>{{ title }}</h3><div class="chips">{% for c in chips %}<span>{{ c }}</span>{% endfor %}</div></div>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="s" id="projects">
+    <div class="eyebrow">// Creative works</div>
+    <h2 class="t">Featured Projects</h2>
+    <div class="acc">
+        {% for pr in projects %}
+        <div class="pn{% if forloop.first %} on{% endif %}" style="--bg-g:{{ pr.bg }};{% if pr.img %}--img:url({% static pr.img %}){% endif %}">
+            <span class="n">{{ pr.title }}</span>
+            <div class="in">
+                <h3>{{ pr.title }}</h3><p>{{ pr.text }}</p>
+                <div class="tags">{% for t in pr.tags %}<span>{{ t }}</span>{% endfor %}</div>
+                <a class="btn" href="{{ pr.url }}">Live Demo ↗</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="mile">
+        <h3 class="m">Key Milestones &amp; Achievements</h3>
+        <div class="g4b">{% for title, text in milestones %}<div class="card"><h4>{{ title }}</h4><p>{{ text }}</p></div>{% endfor %}</div>
+    </div>
+</section>
+
+<section class="s" id="interests">
+    <div class="eyebrow">// My passions</div>
+    <h2 class="t">Beyond The Code</h2>
+    <div class="acc">
+        {% for it in interests %}
+        <div class="pn{% if forloop.counter0 == 2 %} on{% endif %}" style="--bg-g:{{ it.bg }};{% if it.img %}--img:url({% static it.img %}){% endif %}">
+            <span class="n">{{ it.title }}</span>
+            <div class="in"><h3>{{ it.title }}</h3><p>{{ it.text }}</p></div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="s" id="contact">
+    <div class="eyebrow">// Let's collaborate</div>
+    <h2 class="t">Get In Touch</h2>
+    <div class="contact">
+        <div>
+            <h3>Let's start a conversation</h3>
+            <p class="lead2">I'm a web developer and UI/UX designer who loves building clean, fast and user-friendly websites. I turn ideas into simple, beautiful digital experiences.</p>
+            <div class="info"><b>✉</b><div><small>Email me</small>{{ p.email }}</div></div>
+            <div class="info"><b>⌖</b><div><small>Location</small>{{ p.location }}</div></div>
+            <div class="soc">{% for label, url in p.socials %}<a href="{{ url }}">{{ label }}</a>{% endfor %}</div>
+        </div>
+        <form id="form" data-email="{{ p.email }}">
+            <input name="n" placeholder="Your Name" required>
+            <input name="e" type="email" placeholder="Your Email" required>
+            <textarea name="m" placeholder="Your Message" required></textarea>
+            <button type="submit">Send Message ➤</button>
+        </form>
+    </div>
+</section>
+
+<footer>© 2026 {{ p.first_name }} {{ p.last_name }}. All rights reserved.</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="{% static 'assets/js/script.js' %}?v=4"></script>
+</body>
+</html>
